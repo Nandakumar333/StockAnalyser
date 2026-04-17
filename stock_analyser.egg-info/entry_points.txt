@@ -1,0 +1,2 @@
+[console_scripts]
+stock-analyser = stock_analyser.cli:cli
