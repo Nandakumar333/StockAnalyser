@@ -5,6 +5,7 @@ stock_analyser/analyser.py
 stock_analyser/cli.py
 stock_analyser/config.py
 stock_analyser/models.py
+stock_analyser/stock_picker.py
 stock_analyser.egg-info/PKG-INFO
 stock_analyser.egg-info/SOURCES.txt
 stock_analyser.egg-info/dependency_links.txt

@@ -9,7 +9,9 @@ AI-powered fundamental stock analysis tool for Indian equities. Fetches live dat
 - 📋 **13-section reports** — Company overview → Valuation → Portfolio guidance → Decision journal
 - 💼 **Portfolio management framework** — Buy/hold/sell strategy, position sizing, exit rules
 - 🎯 **Decision journal** — Structured logging for every analysis decision
-- ✨ **Rich CLI** — Progress bars, coloured output, beautiful terminal UX
+- ✨ **Rich CLI & Web UI** — Progress bars, coloured terminal output, and a modern Streamlit web dashboard.
+- 📊 **Stock Screener & Picker** — Filter stocks by Sector, P/E, ROE, and Market Cap directly in the Web UI.
+- 🚀 **Batch Analysis** — Run analysis sequentially on filtered stocks.
 
 ## Quick Start
 
@@ -53,6 +55,14 @@ stock-analyser analyse WIPRO -v
 
 ```bash
 stock-analyser list
+```
+
+### 5. Start Web Dashboard (New)
+
+The new Streamlit Web UI provides an interactive dashboard with a Stock Picker, Individual Analysis, and Batch Analysis features.
+
+```bash
+streamlit run app.py
 ```
 
 ## Report Structure

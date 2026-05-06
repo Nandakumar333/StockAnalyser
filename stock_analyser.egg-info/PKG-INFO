@@ -15,3 +15,6 @@ Requires-Dist: python-dotenv>=1.0.0
 Requires-Dist: jinja2>=3.1.0
 Requires-Dist: lxml>=5.0.0
 Requires-Dist: openpyxl>=3.0.0
+Requires-Dist: streamlit>=1.30.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: plotly>=5.18.0
