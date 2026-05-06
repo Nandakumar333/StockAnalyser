@@ -286,15 +286,20 @@ with tab4:
         st.session_state.config.ai_provider = new_provider
         st.rerun()
         
+    st.subheader("Model Override")
+    st.markdown("Leave blank to use the default model for your provider.")
+    ai_model = st.text_input("AI Model", value=st.session_state.config.ai_model, placeholder="e.g. gemini-2.0-flash")
+    
     st.subheader("API Keys")
     gemini_key = st.text_input("Gemini API Key", value=st.session_state.config.gemini_api_key, type="password")
     groq_key = st.text_input("Groq API Key", value=st.session_state.config.groq_api_key, type="password")
     openrouter_key = st.text_input("OpenRouter API Key", value=st.session_state.config.openrouter_api_key, type="password")
     
-    if st.button("💾 Save Keys"):
+    if st.button("💾 Save Settings"):
         st.session_state.config.gemini_api_key = gemini_key
         st.session_state.config.groq_api_key = groq_key
         st.session_state.config.openrouter_api_key = openrouter_key
+        st.session_state.config.ai_model = ai_model
         
         # Save to .env file for persistence
         try:
@@ -305,10 +310,11 @@ with tab4:
                 with open(env_path, "r") as f:
                     lines = f.readlines()
                 for line in lines:
-                    if not line.startswith(("GEMINI_API_KEY=", "GROQ_API_KEY=", "OPENROUTER_API_KEY=", "AI_PROVIDER=")):
+                    if not line.startswith(("GEMINI_API_KEY=", "GROQ_API_KEY=", "OPENROUTER_API_KEY=", "AI_PROVIDER=", "AI_MODEL=")):
                         content.append(line)
             
             content.append(f"AI_PROVIDER={st.session_state.config.ai_provider}\n")
+            if ai_model: content.append(f"AI_MODEL={ai_model}\n")
             if gemini_key: content.append(f"GEMINI_API_KEY={gemini_key}\n")
             if groq_key: content.append(f"GROQ_API_KEY={groq_key}\n")
             if openrouter_key: content.append(f"OPENROUTER_API_KEY={openrouter_key}\n")
