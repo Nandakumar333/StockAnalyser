@@ -126,7 +126,7 @@ with st.sidebar:
 # --- Main App ---
 st.title("📈 AI Stock Analyser & Picker")
 
-tab1, tab2, tab3 = st.tabs(["🎯 Stock Picker", "🔍 Individual Analysis", "📑 Batch Analysis Reports"])
+tab1, tab2, tab3, tab4 = st.tabs(["🎯 Stock Picker", "🔍 Individual Analysis", "📑 Batch Analysis Reports", "⚙️ Settings"])
 
 with tab1:
     st.header("Stock Picker & Screener")
@@ -273,3 +273,49 @@ with tab3:
             )
             st.markdown("---")
             st.markdown(st.session_state.analysis_reports[selected_report])
+
+with tab4:
+    st.header("⚙️ Settings & Configuration")
+    st.markdown("Configure your AI Providers and API Keys for stock analysis here. Note: Keys are saved in memory for this session.")
+    
+    st.subheader("AI Provider Selection")
+    new_provider = st.selectbox("Active AI Provider", ["gemini", "groq", "openrouter"], 
+                                index=["gemini", "groq", "openrouter"].index(st.session_state.config.ai_provider),
+                                key="settings_provider")
+    if new_provider != st.session_state.config.ai_provider:
+        st.session_state.config.ai_provider = new_provider
+        st.rerun()
+        
+    st.subheader("API Keys")
+    gemini_key = st.text_input("Gemini API Key", value=st.session_state.config.gemini_api_key, type="password")
+    groq_key = st.text_input("Groq API Key", value=st.session_state.config.groq_api_key, type="password")
+    openrouter_key = st.text_input("OpenRouter API Key", value=st.session_state.config.openrouter_api_key, type="password")
+    
+    if st.button("💾 Save Keys"):
+        st.session_state.config.gemini_api_key = gemini_key
+        st.session_state.config.groq_api_key = groq_key
+        st.session_state.config.openrouter_api_key = openrouter_key
+        
+        # Save to .env file for persistence
+        try:
+            from pathlib import Path
+            env_path = Path(".env")
+            content = []
+            if env_path.exists():
+                with open(env_path, "r") as f:
+                    lines = f.readlines()
+                for line in lines:
+                    if not line.startswith(("GEMINI_API_KEY=", "GROQ_API_KEY=", "OPENROUTER_API_KEY=", "AI_PROVIDER=")):
+                        content.append(line)
+            
+            content.append(f"AI_PROVIDER={st.session_state.config.ai_provider}\n")
+            if gemini_key: content.append(f"GEMINI_API_KEY={gemini_key}\n")
+            if groq_key: content.append(f"GROQ_API_KEY={groq_key}\n")
+            if openrouter_key: content.append(f"OPENROUTER_API_KEY={openrouter_key}\n")
+            
+            with open(env_path, "w") as f:
+                f.writelines(content)
+            st.success("API Keys saved successfully to session and .env file!")
+        except Exception as e:
+            st.success("API Keys saved to session! (Failed to write to .env file)")
+
